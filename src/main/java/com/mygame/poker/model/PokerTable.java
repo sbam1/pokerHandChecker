@@ -1,4 +1,4 @@
-package com.mygame.poker;
+package com.mygame.poker.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,14 +6,14 @@ import java.util.List;
 public class PokerTable {
     private PokerPlayer player1;
     private PokerPlayer player2;
+
     private List<PokerPlayer> pokerPlayers = new ArrayList<>();
 
     public PokerTable() {
     }
 
-    public PokerTable(PokerPlayer player1, PokerPlayer player2) {
-        this.player1 = player1;
-        this.player2 = player2;
+    public PokerTable(List<PokerPlayer> players) {
+        this.pokerPlayers = players;
     }
 
     public PokerPlayer getPlayer1() {

@@ -1,11 +1,11 @@
 package com.mygame.poker.rule;
 
 
-import com.mygame.poker.Card;
-import com.mygame.poker.CardCategory;
-import com.mygame.poker.CardNumber;
-import com.mygame.poker.PokerTable;
-import com.mygame.poker.PokerPlayer;
+import com.mygame.poker.model.Card;
+import com.mygame.poker.model.CardCategory;
+import com.mygame.poker.model.CardNumber;
+import com.mygame.poker.model.PokerPlayer;
+import com.mygame.poker.model.PokerTable;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,25 +28,31 @@ public class StraightTest {
 
 
     @Test
-    public void shouldWinPlayerWithStraightFlush(){
+    public void shouldWinPlayerWithStraightFlush() {
         Map<String, Object> input = new HashMap<>();
-        input.put("POKER_TABLE", createPokerHandWithSingleStraight());
+        input.put("playerOne", createPokerHandWithSingleStraight().getPokerPlayers().get(0));
+        input.put("playerTwo", createPokerHandWithSingleStraight().getPokerPlayers().get(1));
+
         subject.executeRule(input);
         Assert.assertEquals("playerOne", ((PokerPlayer) input.get("WINNER")).getPlayerName());
     }
 
     @Test
-    public void shouldWinPlayerWithHigherStraightFlush(){
+    public void shouldWinPlayerWithHigherStraightFlush() {
         Map<String, Object> input = new HashMap<>();
-        input.put("POKER_TABLE", createPokerHandWithStraightWithBothPlayers());
+        input.put("playerOne", createPokerHandWithStraightWithBothPlayers().getPokerPlayers().get(0));
+        input.put("playerTwo", createPokerHandWithStraightWithBothPlayers().getPokerPlayers().get(1));
+
         subject.executeRule(input);
         assertEquals("playerTwo", ((PokerPlayer) input.get("WINNER")).getPlayerName());
     }
 
     @Test
-    public void shouldTieWhenBothHasSamePairAndSameWeightedOtherCards(){
+    public void shouldTieWhenBothHasSamePairAndSameWeightedOtherCards() {
         Map<String, Object> input = new HashMap<>();
-        input.put("POKER_TABLE", createPokerHandWithStraightWithBothPlayersWithSameWeight());
+        input.put("playerOne", createPokerHandWithStraightWithBothPlayersWithSameWeight().getPokerPlayers().get(0));
+        input.put("playerTwo", createPokerHandWithStraightWithBothPlayersWithSameWeight().getPokerPlayers().get(1));
+
         subject.executeRule(input);
         assertTrue((Boolean) input.get("TIE"));
         assertNull((input.get("WINNER")));
@@ -54,9 +60,11 @@ public class StraightTest {
 
 
     @Test
-    public void ruleShouldNotDecideTheWinnerIfNoStraightFlush(){
+    public void ruleShouldNotDecideTheWinnerIfNoStraightFlush() {
         Map<String, Object> input = new HashMap<>();
-        input.put("POKER_TABLE", createPokerHandWithoutStraight());
+        input.put("playerOne", createPokerHandWithoutStraight().getPokerPlayers().get(0));
+        input.put("playerTwo", createPokerHandWithoutStraight().getPokerPlayers().get(1));
+
         subject.executeRule(input);
         Assert.assertNull(input.get("WINNER"));
         Assert.assertFalse((Boolean) input.get("RESULT"));
@@ -79,7 +87,7 @@ public class StraightTest {
         PokerPlayer playerOne = new PokerPlayer("playerOne", Arrays.asList(card3, card4, card5, card1, card2));
         PokerPlayer playerTwo = new PokerPlayer("playerTwo", Arrays.asList(card14, card15, card11, card12, card13));
 
-        return new PokerTable(playerOne, playerTwo);
+        return new PokerTable(Arrays.asList(playerOne, playerTwo));
     }
 
     private PokerTable createPokerHandWithStraightWithBothPlayers() {
@@ -98,7 +106,7 @@ public class StraightTest {
         PokerPlayer playerOne = new PokerPlayer("playerOne", Arrays.asList(card1, card2, card3, card4, card5));
         PokerPlayer playerTwo = new PokerPlayer("playerTwo", Arrays.asList(card11, card12, card13, card14, card15));
 
-        return new PokerTable(playerOne, playerTwo);
+        return new PokerTable(Arrays.asList(playerOne, playerTwo));
     }
 
     private PokerTable createPokerHandWithStraightWithBothPlayersWithSameWeight() {
@@ -117,7 +125,7 @@ public class StraightTest {
         PokerPlayer playerOne = new PokerPlayer("playerOne", Arrays.asList(card1, card2, card3, card4, card5));
         PokerPlayer playerTwo = new PokerPlayer("playerTwo", Arrays.asList(card11, card12, card13, card14, card15));
 
-        return new PokerTable(playerOne, playerTwo);
+        return new PokerTable(Arrays.asList(playerOne, playerTwo));
     }
 
 
@@ -137,9 +145,8 @@ public class StraightTest {
         PokerPlayer playerOne = new PokerPlayer("playerOne", Arrays.asList(card1, card2, card3, card4, card5));
         PokerPlayer playerTwo = new PokerPlayer("playerTwo", Arrays.asList(card11, card12, card13, card14, card15));
 
-        return new PokerTable(playerOne, playerTwo);
+        return new PokerTable(Arrays.asList(playerOne, playerTwo));
     }
-
 
 
 }

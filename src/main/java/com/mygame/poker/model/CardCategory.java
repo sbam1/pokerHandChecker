@@ -1,10 +1,10 @@
-package com.mygame.poker;
+package com.mygame.poker.model;
 
 public enum CardCategory {
-    CLUBS("Clubs","C"),
-    DIAMONDS("Diamonds","D"),
-    HEARTS("Hearts","H"),
-    SPADES("Spades","S");
+    CLUBS("Clubs", "C"),
+    DIAMONDS("Diamonds", "D"),
+    HEARTS("Hearts", "H"),
+    SPADES("Spades", "S");
 
     private String name;
     private String symbol;

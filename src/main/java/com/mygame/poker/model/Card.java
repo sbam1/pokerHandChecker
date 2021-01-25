@@ -1,8 +1,8 @@
-package com.mygame.poker;
+package com.mygame.poker.model;
 
 import java.util.Objects;
 
-public class Card implements Comparable<Card>{
+public class Card implements Comparable<Card> {
     private CardCategory cardCategory;
     private CardNumber number;
 

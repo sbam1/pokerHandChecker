@@ -1,13 +1,11 @@
 package com.mygame.poker.rule;
 
-import com.mygame.poker.PokerPlayer;
-import com.mygame.poker.PokerTable;
+import com.mygame.poker.model.PokerPlayer;
 import com.mygame.poker.util.RankingRuleUtil;
 
 import java.util.Collections;
 import java.util.Map;
 
-import static com.mygame.poker.util.Constants.POKER_TABLE;
 import static com.mygame.poker.util.Constants.REASON;
 import static com.mygame.poker.util.Constants.RESULT;
 import static com.mygame.poker.util.Constants.TIE;
@@ -19,17 +17,16 @@ public class Straight implements PokerHandRankingRule {
 
     /**
      * Find Straight exist of not
-     *      if only one player Straight - player with Straight wins
-     *      if both has Straight - higher Straight wins
-     *      if both has Straight with same weight - its TIE
+     * if only one player Straight - player with Straight wins
+     * if both has Straight - higher Straight wins
+     * if both has Straight with same weight - its TIE
      * No Four Of A Kind in both player return without result
      */
     @Override
     public Map<String, Object> executeRule(Map<String, Object> modelObject) {
 
-        PokerTable pokerTable = (PokerTable) modelObject.get(POKER_TABLE);
-        PokerPlayer player1 = pokerTable.getPlayer1();
-        PokerPlayer player2 = pokerTable.getPlayer2();
+        PokerPlayer player1 = (PokerPlayer) modelObject.get("playerOne");
+        PokerPlayer player2 = (PokerPlayer) modelObject.get("playerTwo");
 
         //sort cards in descending order:
         Collections.sort(player1.getCards());
@@ -39,15 +36,13 @@ public class Straight implements PokerHandRankingRule {
 
         boolean straightOne = RankingRuleUtil.isStraight(player1);
         boolean straightTwo = RankingRuleUtil.isStraight(player2);
-        if(straightOne && straightTwo) {
+        if (straightOne && straightTwo) {
             //compare straights
             compareTwoPlayersCards(modelObject, player1, player2);
-        }
-        else if(straightOne) {
+        } else if (straightOne) {
             //player one wins
             setStatus(modelObject, player1);
-        }
-        else if(straightTwo) {
+        } else if (straightTwo) {
             //player two wins
             setStatus(modelObject, player2);
         } else {
@@ -59,18 +54,18 @@ public class Straight implements PokerHandRankingRule {
 
     private void compareTwoPlayersCards(Map<String, Object> modelObject, PokerPlayer player1, PokerPlayer player2) {
 
-        for(int i = 0; i < player1.getCards().size(); i++) {
+        for (int i = 0; i < player1.getCards().size(); i++) {
             int result = compareTwoCards(player1.getCards().get(i), player2.getCards().get(i));
-            if(result > 0) {
+            if (result > 0) {
                 setStatus(modelObject, player1);
                 break;
-            } else if(result < 0) {
+            } else if (result < 0) {
                 setStatus(modelObject, player2);
                 break;
             }
         }
 
-        if(null == modelObject.get(WINNER)) {
+        if (null == modelObject.get(WINNER)) {
             modelObject.put(WINNER, null);
             modelObject.put(TIE, true);
         }

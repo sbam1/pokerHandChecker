@@ -1,10 +1,10 @@
 package com.mygame.poker.rule;
 
-import com.mygame.poker.Card;
-import com.mygame.poker.CardCategory;
-import com.mygame.poker.CardNumber;
-import com.mygame.poker.PokerTable;
-import com.mygame.poker.PokerPlayer;
+import com.mygame.poker.model.Card;
+import com.mygame.poker.model.CardCategory;
+import com.mygame.poker.model.CardNumber;
+import com.mygame.poker.model.PokerPlayer;
+import com.mygame.poker.model.PokerTable;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,48 +13,55 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.mygame.poker.util.Constants.POKER_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-public  class PairTest {
+public class PairTest {
 
     private Pair subject;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         subject = new Pair();
     }
 
     @Test
-    public void shouldWinPlayerWithPair(){
+    public void shouldWinPlayerWithPair() {
         Map<String, Object> input = new HashMap<>();
-        input.put("POKER_TABLE", createPokerHandWithSinglePair());
+        input.put("playerOne", createPokerHandWithSinglePair().getPokerPlayers().get(0));
+        input.put("playerTwo", createPokerHandWithSinglePair().getPokerPlayers().get(1));
+
         subject.executeRule(input);
         Assert.assertEquals("playerTwo", ((PokerPlayer) input.get("WINNER")).getPlayerName());
     }
 
     @Test
-    public void shouldWinPlayerWithHigherPair(){
+    public void shouldWinPlayerWithHigherPair() {
         Map<String, Object> input = new HashMap<>();
-        input.put("POKER_TABLE", createPokerHandWithPairWithBothButOneHigherPairThanOther());
+        input.put("playerOne", createPokerHandWithPairWithBothButOneHigherPairThanOther().getPokerPlayers().get(0));
+        input.put("playerTwo", createPokerHandWithPairWithBothButOneHigherPairThanOther().getPokerPlayers().get(1));
+
         subject.executeRule(input);
         assertEquals("playerOne", ((PokerPlayer) input.get("WINNER")).getPlayerName());
     }
 
     @Test
-    public void shouldWinPlayerWithSamePairWithOtherHigherCard(){
+    public void shouldWinPlayerWithSamePairWithOtherHigherCard() {
         Map<String, Object> input = new HashMap<>();
-        input.put("POKER_TABLE", createPokerHandWithPairWithBoth());
+        input.put("playerOne", createPokerHandWithPairWithBoth().getPokerPlayers().get(0));
+        input.put("playerTwo", createPokerHandWithPairWithBoth().getPokerPlayers().get(1));
+
         subject.executeRule(input);
         assertEquals("playerOne", ((PokerPlayer) input.get("WINNER")).getPlayerName());
     }
 
     @Test
-    public void shouldTieWhenBothHasSamePairAndSameWeightedOtherCards(){
+    public void shouldTieWhenBothHasSamePairAndSameWeightedOtherCards() {
         Map<String, Object> input = new HashMap<>();
-        input.put("POKER_TABLE", createPokerHandWithSamePairTie());
+        input.put("playerOne", createPokerHandWithSamePairTie().getPokerPlayers().get(0));
+        input.put("playerTwo", createPokerHandWithSamePairTie().getPokerPlayers().get(1));
+
         subject.executeRule(input);
         assertTrue((Boolean) input.get("TIE"));
         assertNull((input.get("WINNER")));
@@ -75,7 +82,7 @@ public  class PairTest {
         PokerPlayer playerOne = new PokerPlayer("playerOne", Arrays.asList(card1, card2, card3, card4, card5));
         PokerPlayer playerTwo = new PokerPlayer("playerTwo", Arrays.asList(card11, card12, card13, card14, card15));
 
-        return new PokerTable(playerOne, playerTwo);
+        return new PokerTable(Arrays.asList(playerOne, playerTwo));
     }
 
     private PokerTable createPokerHandWithPairWithBothButOneHigherPairThanOther() {
@@ -93,7 +100,7 @@ public  class PairTest {
         PokerPlayer playerOne = new PokerPlayer("playerOne", Arrays.asList(card1, card2, card3, card4, card5));
         PokerPlayer playerTwo = new PokerPlayer("playerTwo", Arrays.asList(card11, card12, card13, card14, card15));
 
-        return new PokerTable(playerOne, playerTwo);
+        return new PokerTable(Arrays.asList(playerOne, playerTwo));
     }
 
     private PokerTable createPokerHandWithPairWithBoth() {
@@ -112,7 +119,7 @@ public  class PairTest {
         PokerPlayer playerOne = new PokerPlayer("playerOne", Arrays.asList(card1, card2, card3, card4, card5));
         PokerPlayer playerTwo = new PokerPlayer("playerTwo", Arrays.asList(card11, card12, card13, card14, card15));
 
-        return new PokerTable(playerOne, playerTwo);
+        return new PokerTable(Arrays.asList(playerOne, playerTwo));
     }
 
     private PokerTable createPokerHandWithSamePairTie() {
@@ -131,7 +138,7 @@ public  class PairTest {
         PokerPlayer playerOne = new PokerPlayer("playerOne", Arrays.asList(card1, card2, card3, card4, card5));
         PokerPlayer playerTwo = new PokerPlayer("playerTwo", Arrays.asList(card11, card12, card13, card14, card15));
 
-        return new PokerTable(playerOne, playerTwo);
+        return new PokerTable(Arrays.asList(playerOne, playerTwo));
     }
 
 }

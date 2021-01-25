@@ -1,4 +1,4 @@
-package com.mygame.poker;
+package com.mygame.poker.model;
 
 //these card should be arranged based on weight in ascending order:
 public enum CardNumber {

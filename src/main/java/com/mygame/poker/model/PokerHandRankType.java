@@ -1,4 +1,4 @@
-package com.mygame.poker;
+package com.mygame.poker.model;
 
 public enum PokerHandRankType {
     STRAIGHT_FLUSH("Straight flush", 1),

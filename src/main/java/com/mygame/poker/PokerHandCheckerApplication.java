@@ -1,5 +1,12 @@
 package com.mygame.poker;
 
+import com.mygame.poker.model.Card;
+import com.mygame.poker.model.CardCategory;
+import com.mygame.poker.model.CardNumber;
+import com.mygame.poker.model.PokerPlayer;
+import com.mygame.poker.model.PokerTable;
+import com.mygame.poker.service.PokerResultService;
+
 import java.util.Arrays;
 
 public class PokerHandCheckerApplication {
@@ -24,7 +31,7 @@ public class PokerHandCheckerApplication {
         PokerPlayer playerOne = new PokerPlayer("playerOne", Arrays.asList(card1, card2, card3, card4, card5));
         PokerPlayer playerTwo = new PokerPlayer("playerTwo", Arrays.asList(card11, card12, card13, card14, card15));
 
-        PokerTable pokerTable1 = new PokerTable(playerOne, playerTwo);
+        PokerTable pokerTable1 = new PokerTable(Arrays.asList(playerOne, playerTwo));
         PokerResultService pokerResultService = new PokerResultService();
         pokerResultService.checkPokerTablesResult(Arrays.asList(pokerTable1));
 

@@ -1,15 +1,13 @@
 package com.mygame.poker.rule;
 
-import com.mygame.poker.Card;
-import com.mygame.poker.CardNumber;
-import com.mygame.poker.PokerTable;
-import com.mygame.poker.PokerPlayer;
+import com.mygame.poker.model.Card;
+import com.mygame.poker.model.CardNumber;
+import com.mygame.poker.model.PokerPlayer;
 
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.mygame.poker.util.Constants.POKER_TABLE;
 import static com.mygame.poker.util.Constants.REASON;
 import static com.mygame.poker.util.Constants.RESULT;
 import static com.mygame.poker.util.Constants.WINNER;
@@ -19,44 +17,40 @@ public class FullHouse implements PokerHandRankingRule {
 
     /**
      * Find Full House exist of not
-     *      if only one player has FullHouse - player with Full House wins
-     *      if both has Full House - higher Full House wins
+     * if only one player has FullHouse - player with Full House wins
+     * if both has Full House - higher Full House wins
      * No Full House in both players return without result
      */
 
     @Override
     public Map<String, Object> executeRule(Map<String, Object> modelObject) {
 
-        PokerTable pokerTable = (PokerTable) modelObject.get(POKER_TABLE);
-        PokerPlayer player1 = pokerTable.getPlayer1();
-        PokerPlayer player2 = pokerTable.getPlayer2();
+        PokerPlayer player1 = (PokerPlayer) modelObject.get("playerOne");
+        PokerPlayer player2 = (PokerPlayer) modelObject.get("playerTwo");
 
         FullHouseResult fullHouseResult1 = hasFullHouse(player1);
         FullHouseResult fullHouseResult2 = hasFullHouse(player2);
 
         modelObject.put(RESULT, true);
-        if(fullHouseResult1.fullHouse && fullHouseResult2.fullHouse) {
+        if (fullHouseResult1.fullHouse && fullHouseResult2.fullHouse) {
 
             //higher full house wins.
             int weight = fullHouseResult1.threeOfAKindCard.getNumber().getWeight() - fullHouseResult2.threeOfAKindCard.getNumber().getWeight();
 
-            if(weight > 0) {
+            if (weight > 0) {
                 //player one wins
                 setStatus(modelObject, player1, fullHouseResult1);
             } else {
                 //player two wins.
                 setStatus(modelObject, player2, fullHouseResult2);
             }
-        }
-        else if(fullHouseResult1.fullHouse) {
+        } else if (fullHouseResult1.fullHouse) {
             //playerOne wins.
             setStatus(modelObject, player1, fullHouseResult1);
-        }
-        else if(fullHouseResult2.fullHouse) {
+        } else if (fullHouseResult2.fullHouse) {
             //playerTwo wins.
             setStatus(modelObject, player2, fullHouseResult2);
-        }
-        else {
+        } else {
             //rule not applicable
             modelObject.put(RESULT, false);
         }
@@ -76,7 +70,7 @@ public class FullHouse implements PokerHandRankingRule {
         Map<CardNumber, List<Card>> listMap = player.getCards().stream()
                 .collect(Collectors.groupingBy(Card::getNumber, toList()));
 
-        if(listMap.size() == 2) {
+        if (listMap.size() == 2) {
             listMap.forEach((key, value) -> {
                 if (value.size() == 3) {
                     fullHouseResult.threeOfAKindCard = value.get(0);
@@ -87,7 +81,7 @@ public class FullHouse implements PokerHandRankingRule {
             });
         }
 
-        if(fullHouseResult.pairCard != null && fullHouseResult.threeOfAKindCard != null) {
+        if (fullHouseResult.pairCard != null && fullHouseResult.threeOfAKindCard != null) {
             fullHouseResult.fullHouse = true;
         }
 

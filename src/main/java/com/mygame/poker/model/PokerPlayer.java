@@ -1,4 +1,4 @@
-package com.mygame.poker;
+package com.mygame.poker.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.List;
 public class PokerPlayer {
 
     private String playerName;
-    private List<Card> cards =  new ArrayList<>(5);
+    private List<Card> cards = new ArrayList<>(5);
 
     public PokerPlayer() {
     }
@@ -33,7 +33,7 @@ public class PokerPlayer {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return playerName;
     }
 }

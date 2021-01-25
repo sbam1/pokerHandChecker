@@ -1,10 +1,10 @@
 package com.mygame.poker.rule;
 
-import com.mygame.poker.Card;
-import com.mygame.poker.CardCategory;
-import com.mygame.poker.CardNumber;
-import com.mygame.poker.PokerTable;
-import com.mygame.poker.PokerPlayer;
+import com.mygame.poker.model.Card;
+import com.mygame.poker.model.CardCategory;
+import com.mygame.poker.model.CardNumber;
+import com.mygame.poker.model.PokerPlayer;
+import com.mygame.poker.model.PokerTable;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,7 +28,9 @@ public class ThreeOfAKindTest {
     @Test
     public void shouldWinPlayerWithThreeOfAKind() {
         Map<String, Object> input = new HashMap<>();
-        input.put("POKER_TABLE", createPokerHandWithSingleThreeOfAKind());
+        input.put("playerOne", createPokerHandWithSingleThreeOfAKind().getPokerPlayers().get(0));
+        input.put("playerTwo", createPokerHandWithSingleThreeOfAKind().getPokerPlayers().get(1));
+
         subject.executeRule(input);
 
         assertEquals("playerOne", ((PokerPlayer) input.get("WINNER")).getPlayerName());
@@ -37,16 +39,20 @@ public class ThreeOfAKindTest {
     @Test
     public void shouldWinPlayerWithHigherThreeOfAKind() {
         Map<String, Object> input = new HashMap<>();
-        input.put("POKER_TABLE", createPokerHandWithThreeOfAKindWithBothPlayers());
+        input.put("playerOne", createPokerHandWithThreeOfAKindWithBothPlayers().getPokerPlayers().get(0));
+        input.put("playerTwo", createPokerHandWithThreeOfAKindWithBothPlayers().getPokerPlayers().get(1));
+
         subject.executeRule(input);
 
         assertEquals("playerOne", ((PokerPlayer) input.get("WINNER")).getPlayerName());
     }
 
     @Test
-    public void ruleShouldNotDecideTheWinnerIfThreeOfAKindNotPresent(){
+    public void ruleShouldNotDecideTheWinnerIfThreeOfAKindNotPresent() {
         Map<String, Object> input = new HashMap<>();
-        input.put("POKER_TABLE", createPokerHandWithoutThreeOfAKind());
+        input.put("playerOne", createPokerHandWithoutThreeOfAKind().getPokerPlayers().get(0));
+        input.put("playerTwo", createPokerHandWithoutThreeOfAKind().getPokerPlayers().get(1));
+
         subject.executeRule(input);
         Assert.assertNull(input.get("WINNER"));
         Assert.assertFalse((Boolean) input.get("RESULT"));
@@ -69,7 +75,7 @@ public class ThreeOfAKindTest {
         PokerPlayer playerOne = new PokerPlayer("playerOne", Arrays.asList(card3, card4, card5, card1, card2));
         PokerPlayer playerTwo = new PokerPlayer("playerTwo", Arrays.asList(card14, card15, card11, card12, card13));
 
-        return new PokerTable(playerOne, playerTwo);
+        return new PokerTable(Arrays.asList(playerOne, playerTwo));
     }
 
     private PokerTable createPokerHandWithThreeOfAKindWithBothPlayers() {
@@ -88,7 +94,7 @@ public class ThreeOfAKindTest {
         PokerPlayer playerTwo = new PokerPlayer("playerOne", Arrays.asList(card1, card2, card3, card4, card5));
         PokerPlayer playerOne = new PokerPlayer("playerTwo", Arrays.asList(card11, card12, card13, card14, card15));
 
-        return new PokerTable(playerOne, playerTwo);
+        return new PokerTable(Arrays.asList(playerOne, playerTwo));
     }
 
     private PokerTable createPokerHandWithoutThreeOfAKind() {
@@ -107,7 +113,7 @@ public class ThreeOfAKindTest {
         PokerPlayer playerOne = new PokerPlayer("playerOne", Arrays.asList(card3, card4, card5, card1, card2));
         PokerPlayer playerTwo = new PokerPlayer("playerTwo", Arrays.asList(card14, card15, card11, card12, card13));
 
-        return new PokerTable(playerOne, playerTwo);
+        return new PokerTable(Arrays.asList(playerOne, playerTwo));
     }
 
 }
