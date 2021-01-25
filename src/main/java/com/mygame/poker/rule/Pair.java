@@ -2,7 +2,7 @@ package com.mygame.poker.rule;
 
 import com.mygame.poker.Card;
 import com.mygame.poker.CardNumber;
-import com.mygame.poker.PokerHand;
+import com.mygame.poker.PokerTable;
 import com.mygame.poker.PokerPlayer;
 
 import java.util.ArrayList;
@@ -28,9 +28,9 @@ public class Pair implements PokerHandRankingRule {
     @Override
     public Map<String, Object> executeRule(Map<String, Object> modelObject) {
 
-        PokerHand pokerHand = (PokerHand) modelObject.get("POKER_HAND");
-        PokerPlayer player1 = pokerHand.getPlayer1();
-        PokerPlayer player2 = pokerHand.getPlayer2();
+        PokerTable pokerTable = (PokerTable) modelObject.get("POKER_HAND");
+        PokerPlayer player1 = pokerTable.getPlayer1();
+        PokerPlayer player2 = pokerTable.getPlayer2();
 
         PairResult playerOneResult = getPairResult(player1);
         PairResult playerTwoResult = getPairResult(player2);
@@ -60,9 +60,9 @@ public class Pair implements PokerHandRankingRule {
     private void bothPlayerGotPair(Map<String, Object> modelObject, PairResult playerOneResult, PairResult playerTwoResult) {
         modelObject.put("RESULT", true);
 
-        PokerHand pokerHand = (PokerHand) modelObject.get("POKER_HAND");
-        PokerPlayer player1 = pokerHand.getPlayer1();
-        PokerPlayer player2 = pokerHand.getPlayer2();
+        PokerTable pokerTable = (PokerTable) modelObject.get("POKER_HAND");
+        PokerPlayer player1 = pokerTable.getPlayer1();
+        PokerPlayer player2 = pokerTable.getPlayer2();
 
         if(playerOneResult.pairCard.getNumber().getWeight() > playerTwoResult.getPairCard().getNumber().getWeight()) {
             modelObject.put("WINNER", player1);

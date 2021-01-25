@@ -1,6 +1,6 @@
 package com.mygame.poker.rule;
 
-import com.mygame.poker.PokerHand;
+import com.mygame.poker.PokerTable;
 import com.mygame.poker.PokerPlayer;
 
 import java.util.Collections;
@@ -21,9 +21,9 @@ public class StraightFlush implements PokerHandRankingRule {
     @Override
     public Map<String, Object> executeRule(Map<String, Object> modelObject) {
 
-        PokerHand pokerHand = (PokerHand) modelObject.get("POKER_HAND");
-        PokerPlayer player1 = pokerHand.getPlayer1();
-        PokerPlayer player2 = pokerHand.getPlayer2();
+        PokerTable pokerTable = (PokerTable) modelObject.get("POKER_HAND");
+        PokerPlayer player1 = pokerTable.getPlayer1();
+        PokerPlayer player2 = pokerTable.getPlayer2();
 
         //sort cards in descending order:
         Collections.sort(player1.getCards());

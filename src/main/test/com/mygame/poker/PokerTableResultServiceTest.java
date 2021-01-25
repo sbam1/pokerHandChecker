@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import java.util.Arrays;
 
-public class PokerHandResultServiceTest {
+public class PokerTableResultServiceTest {
 
     private PokerHandResultService service;
 
@@ -33,8 +33,8 @@ public class PokerHandResultServiceTest {
         PokerPlayer playerOne = new PokerPlayer("playerOne", Arrays.asList(card1, card2, card3, card4, card5));
         PokerPlayer playerTwo = new PokerPlayer("playerTwo", Arrays.asList(card11, card12, card13, card14, card15));
 
-        PokerHand pokerHand1 = new PokerHand(playerOne, playerTwo);
-        service.displayResult(Arrays.asList(pokerHand1));
+        PokerTable pokerTable1 = new PokerTable(playerOne, playerTwo);
+        service.checkPokerTablesResult(Arrays.asList(pokerTable1));
 
     }
 
@@ -56,8 +56,8 @@ public class PokerHandResultServiceTest {
         PokerPlayer playerOne = new PokerPlayer("playerOne", Arrays.asList(card1, card2, card3, card4, card5));
         PokerPlayer playerTwo = new PokerPlayer("playerTwo", Arrays.asList(card11, card12, card13, card14, card15));
 
-        PokerHand pokerHand1 = new PokerHand(playerOne, playerTwo);
-        service.displayResult(Arrays.asList(pokerHand1));
+        PokerTable pokerTable1 = new PokerTable(playerOne, playerTwo);
+        service.checkPokerTablesResult(Arrays.asList(pokerTable1));
 
     }
 
@@ -80,8 +80,8 @@ public class PokerHandResultServiceTest {
         PokerPlayer playerOne = new PokerPlayer("playerOne", Arrays.asList(card1, card2, card3, card4, card5));
         PokerPlayer playerTwo = new PokerPlayer("playerTwo", Arrays.asList(card11, card12, card13, card14, card15));
 
-        PokerHand pokerHand1 = new PokerHand(playerOne, playerTwo);
-        service.displayResult(Arrays.asList(pokerHand1));
+        PokerTable pokerTable1 = new PokerTable(playerOne, playerTwo);
+        service.checkPokerTablesResult(Arrays.asList(pokerTable1));
 
     }
 
@@ -105,8 +105,8 @@ public class PokerHandResultServiceTest {
         PokerPlayer playerOne = new PokerPlayer("playerOne", Arrays.asList(card1, card2, card3, card4, card5));
         PokerPlayer playerTwo = new PokerPlayer("playerTwo", Arrays.asList(card11, card12, card13, card14, card15));
 
-        PokerHand pokerHand1 = new PokerHand(playerOne, playerTwo);
-        service.displayResult(Arrays.asList(pokerHand1));
+        PokerTable pokerTable1 = new PokerTable(playerOne, playerTwo);
+        service.checkPokerTablesResult(Arrays.asList(pokerTable1));
 
     }
 
@@ -128,8 +128,8 @@ public class PokerHandResultServiceTest {
         PokerPlayer playerOne = new PokerPlayer("playerOne", Arrays.asList(card1, card2, card3, card4, card5));
         PokerPlayer playerTwo = new PokerPlayer("playerTwo", Arrays.asList(card11, card12, card13, card14, card15));
 
-        PokerHand pokerHand1 = new PokerHand(playerOne, playerTwo);
-        service.displayResult(Arrays.asList(pokerHand1));
+        PokerTable pokerTable1 = new PokerTable(playerOne, playerTwo);
+        service.checkPokerTablesResult(Arrays.asList(pokerTable1));
 
     }
 
@@ -151,8 +151,8 @@ public class PokerHandResultServiceTest {
         PokerPlayer playerOne = new PokerPlayer("playerOne", Arrays.asList(card1, card2, card3, card4, card5));
         PokerPlayer playerTwo = new PokerPlayer("playerTwo", Arrays.asList(card11, card12, card13, card14, card15));
 
-        PokerHand pokerHand1 = new PokerHand(playerOne, playerTwo);
-        service.displayResult(Arrays.asList(pokerHand1));
+        PokerTable pokerTable1 = new PokerTable(playerOne, playerTwo);
+        service.checkPokerTablesResult(Arrays.asList(pokerTable1));
 
     }
 
@@ -174,8 +174,8 @@ public class PokerHandResultServiceTest {
         PokerPlayer playerOne = new PokerPlayer("playerOne", Arrays.asList(card1, card2, card3, card4, card5));
         PokerPlayer playerTwo = new PokerPlayer("playerTwo", Arrays.asList(card11, card12, card13, card14, card15));
 
-        PokerHand pokerHand1 = new PokerHand(playerOne, playerTwo);
-        service.displayResult(Arrays.asList(pokerHand1));
+        PokerTable pokerTable1 = new PokerTable(playerOne, playerTwo);
+        service.checkPokerTablesResult(Arrays.asList(pokerTable1));
 
     }
 
@@ -197,8 +197,8 @@ public class PokerHandResultServiceTest {
         PokerPlayer playerOne = new PokerPlayer("playerOne", Arrays.asList(card1, card2, card3, card4, card5));
         PokerPlayer playerTwo = new PokerPlayer("playerTwo", Arrays.asList(card11, card12, card13, card14, card15));
 
-        PokerHand pokerHand1 = new PokerHand(playerOne, playerTwo);
-        service.displayResult(Arrays.asList(pokerHand1));
+        PokerTable pokerTable1 = new PokerTable(playerOne, playerTwo);
+        service.checkPokerTablesResult(Arrays.asList(pokerTable1));
 
     }
 
@@ -220,8 +220,8 @@ public class PokerHandResultServiceTest {
         PokerPlayer playerOne = new PokerPlayer("playerOne", Arrays.asList(card1, card2, card3, card4, card5));
         PokerPlayer playerTwo = new PokerPlayer("playerTwo", Arrays.asList(card11, card12, card13, card14, card15));
 
-        PokerHand pokerHand1 = new PokerHand(playerOne, playerTwo);
-        service.displayResult(Arrays.asList(pokerHand1));
+        PokerTable pokerTable1 = new PokerTable(playerOne, playerTwo);
+        service.checkPokerTablesResult(Arrays.asList(pokerTable1));
 
     }
 

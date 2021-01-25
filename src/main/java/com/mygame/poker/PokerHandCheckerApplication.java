@@ -21,9 +21,9 @@ public class PokerHandCheckerApplication {
         PokerPlayer playerOne = new PokerPlayer("playerOne", Arrays.asList(card1, card2, card3, card4, card5));
         PokerPlayer playerTwo = new PokerPlayer("playerTwo", Arrays.asList(card11, card12, card13, card14, card15));
 
-        PokerHand pokerHand1 = new PokerHand(playerOne, playerTwo);
+        PokerTable pokerTable1 = new PokerTable(playerOne, playerTwo);
         PokerHandResultService pokerHandResultService = new PokerHandResultService();
-        pokerHandResultService.displayResult(Arrays.asList(pokerHand1));
+        pokerHandResultService.checkPokerTablesResult(Arrays.asList(pokerTable1));
 
     }
 

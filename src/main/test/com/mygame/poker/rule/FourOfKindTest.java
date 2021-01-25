@@ -4,7 +4,7 @@ package com.mygame.poker.rule;
 import com.mygame.poker.Card;
 import com.mygame.poker.CardCategory;
 import com.mygame.poker.CardNumber;
-import com.mygame.poker.PokerHand;
+import com.mygame.poker.PokerTable;
 import com.mygame.poker.PokerPlayer;
 import org.junit.Assert;
 import org.junit.Before;
@@ -54,7 +54,7 @@ public class FourOfKindTest {
     }
 
 
-    private PokerHand createPokerHandWithSingleFourOfAKind() {
+    private PokerTable createPokerHandWithSingleFourOfAKind() {
         Card card1 = new Card(CardCategory.CLUBS, CardNumber.ACE);
         Card card2 = new Card(CardCategory.HEARTS, CardNumber.ACE);
         Card card3 = new Card(CardCategory.DIAMONDS, CardNumber.ACE);
@@ -70,10 +70,10 @@ public class FourOfKindTest {
         PokerPlayer playerOne = new PokerPlayer("playerOne", Arrays.asList(card3, card4, card5, card1, card2));
         PokerPlayer playerTwo = new PokerPlayer("playerTwo", Arrays.asList(card14, card15, card11, card12, card13));
 
-        return new PokerHand(playerOne, playerTwo);
+        return new PokerTable(playerOne, playerTwo);
     }
 
-    private PokerHand createPokerHandWithFourOfAKindWithBothPlayers() {
+    private PokerTable createPokerHandWithFourOfAKindWithBothPlayers() {
         Card card1 = new Card(CardCategory.CLUBS, CardNumber.ACE);
         Card card2 = new Card(CardCategory.HEARTS, CardNumber.ACE);
         Card card3 = new Card(CardCategory.DIAMONDS, CardNumber.ACE);
@@ -89,10 +89,10 @@ public class FourOfKindTest {
         PokerPlayer playerTwo = new PokerPlayer("playerOne", Arrays.asList(card1, card2, card3, card4, card5));
         PokerPlayer playerOne = new PokerPlayer("playerTwo", Arrays.asList(card11, card12, card13, card14, card15));
 
-        return new PokerHand(playerOne, playerTwo);
+        return new PokerTable(playerOne, playerTwo);
     }
 
-    private PokerHand createPokerHandWithoutFourOfAKind() {
+    private PokerTable createPokerHandWithoutFourOfAKind() {
         Card card1 = new Card(CardCategory.CLUBS, CardNumber.ACE);
         Card card2 = new Card(CardCategory.HEARTS, CardNumber.KING);
         Card card3 = new Card(CardCategory.DIAMONDS, CardNumber.QUEEN);
@@ -108,7 +108,7 @@ public class FourOfKindTest {
         PokerPlayer playerOne = new PokerPlayer("playerOne", Arrays.asList(card3, card4, card5, card1, card2));
         PokerPlayer playerTwo = new PokerPlayer("playerTwo", Arrays.asList(card14, card15, card11, card12, card13));
 
-        return new PokerHand(playerOne, playerTwo);
+        return new PokerTable(playerOne, playerTwo);
     }
 
 }

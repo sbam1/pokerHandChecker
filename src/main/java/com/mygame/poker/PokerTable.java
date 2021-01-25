@@ -1,13 +1,13 @@
 package com.mygame.poker;
 
-public class PokerHand {
+public class PokerTable {
     private PokerPlayer player1;
     private PokerPlayer player2;
 
-    public PokerHand() {
+    public PokerTable() {
     }
 
-    public PokerHand(PokerPlayer player1, PokerPlayer player2) {
+    public PokerTable(PokerPlayer player1, PokerPlayer player2) {
         this.player1 = player1;
         this.player2 = player2;
     }
