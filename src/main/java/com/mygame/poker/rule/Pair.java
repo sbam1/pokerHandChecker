@@ -12,6 +12,11 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+import static com.mygame.poker.util.Constants.POKER_TABLE;
+import static com.mygame.poker.util.Constants.REASON;
+import static com.mygame.poker.util.Constants.RESULT;
+import static com.mygame.poker.util.Constants.TIE;
+import static com.mygame.poker.util.Constants.WINNER;
 import static com.mygame.poker.util.RankingRuleUtil.compareTwoCards;
 import static java.util.stream.Collectors.toList;
 
@@ -28,7 +33,7 @@ public class Pair implements PokerHandRankingRule {
     @Override
     public Map<String, Object> executeRule(Map<String, Object> modelObject) {
 
-        PokerTable pokerTable = (PokerTable) modelObject.get("POKER_HAND");
+        PokerTable pokerTable = (PokerTable) modelObject.get(POKER_TABLE);
         PokerPlayer player1 = pokerTable.getPlayer1();
         PokerPlayer player2 = pokerTable.getPlayer2();
 
@@ -40,63 +45,55 @@ public class Pair implements PokerHandRankingRule {
 
         }
         else if (playerOneResult.hasPair){
-            modelObject.put("RESULT", true);
-            modelObject.put("WINNER", player1);
-            modelObject.put("REASON", "Pair of " + playerOneResult.getPairCard().getNumber().getName());
+            setStatus(modelObject, player1, playerOneResult.pairCard, null);
 
         }else if(playerTwoResult.hasPair){
-            modelObject.put("RESULT", true);
-            modelObject.put("WINNER", player2);
-            modelObject.put("REASON", "Pair of " + playerTwoResult.getPairCard().getNumber().getName());
+            setStatus(modelObject, player2, playerTwoResult.pairCard, null);
         }
         else {
             //rule not applicable
-            modelObject.put("RESULT", false);
+            modelObject.put(RESULT, false);
         }
 
         return modelObject;
     }
 
     private void bothPlayerGotPair(Map<String, Object> modelObject, PairResult playerOneResult, PairResult playerTwoResult) {
-        modelObject.put("RESULT", true);
+        modelObject.put(RESULT, true);
 
-        PokerTable pokerTable = (PokerTable) modelObject.get("POKER_HAND");
+        PokerTable pokerTable = (PokerTable) modelObject.get(POKER_TABLE);
         PokerPlayer player1 = pokerTable.getPlayer1();
         PokerPlayer player2 = pokerTable.getPlayer2();
 
-        if(playerOneResult.pairCard.getNumber().getWeight() > playerTwoResult.getPairCard().getNumber().getWeight()) {
-            modelObject.put("WINNER", player1);
-            modelObject.put("REASON", "Pair of " + playerOneResult.getPairCard().getNumber().getName());
+        int higherPair = compareTwoCards(playerOneResult.pairCard, playerTwoResult.pairCard);
+        if(higherPair > 0) {
+            setStatus(modelObject, player1, playerOneResult.pairCard, null);
 
-        } else  if(playerTwoResult.pairCard.getNumber().getWeight() > playerOneResult.getPairCard().getNumber().getWeight()) {
-            modelObject.put("WINNER", player2);
-            modelObject.put("REASON", "Pair of " + playerTwoResult.getPairCard().getNumber().getName());
+        } else  if(higherPair < 0) {
+            setStatus(modelObject, player2, playerTwoResult.pairCard, null);
         } else {
+            //both player has same pair.
             // player with higher card wins
             Collections.sort(playerOneResult.otherCards);
             Collections.sort(playerTwoResult.otherCards);
 
             AtomicInteger index = new AtomicInteger();
 
-            playerOneResult.otherCards.forEach(it -> {
-                int result = compareTwoCards(it, playerTwoResult.otherCards.get(index.get()));
+            for(int i = 0; i < playerOneResult.otherCards.size(); i++) {
+                int result = compareTwoCards(playerOneResult.otherCards.get(i), playerTwoResult.otherCards.get(i));
                 if(result > 0) {
-                    modelObject.put("WINNER", player1);
-                    modelObject.put("REASON", "Pair of " + it.getNumber().getName()
-                            + "And With High Card: " + playerTwoResult.otherCards.get(index.get()).getNumber().getName());
+                    setStatus(modelObject, player1, playerOneResult.pairCard, playerOneResult.otherCards.get(i));
                     return;
                 } else if(result < 0) {
-                    modelObject.put("WINNER", player2);
-                    modelObject.put("REASON", "Pair of " + playerTwoResult.getPairCard().getNumber().getName()
-                    + "And With High Card: " + playerTwoResult.otherCards.get(index.get()).getNumber().getName());
+                    setStatus(modelObject, player2, playerTwoResult.pairCard, playerTwoResult.otherCards.get(i));
                     return;
                 }
                 index.incrementAndGet();
-            });
+            }
 
-            if(null ==  modelObject.get("WINNER")) {
-                modelObject.put("WINNER", null);
-                modelObject.put("TIE", true);
+            if(null ==  modelObject.get(WINNER)) {
+                modelObject.put(WINNER, null);
+                modelObject.put(TIE, true);
             }
         }
     }
@@ -107,7 +104,7 @@ public class Pair implements PokerHandRankingRule {
 
         boolean hasPair = listMap.entrySet().stream().anyMatch(it -> it.getValue().size() == 2);
         PairResult pairResult = new PairResult();
-        pairResult.setHasPair(hasPair);
+        pairResult.hasPair = hasPair;
 
         if(hasPair) {
             listMap.forEach((key, value) -> {
@@ -125,29 +122,15 @@ public class Pair implements PokerHandRankingRule {
         private Card pairCard;
         private List<Card> otherCards = new ArrayList<>();
         boolean hasPair;
+    }
 
-        public Card getPairCard() {
-            return pairCard;
+    private void setStatus(Map<String, Object> modelObject, PokerPlayer player, Card pairCard, Card highCard) {
+        StringBuilder reason = new StringBuilder("Pair of " +pairCard.getNumber().getName());
+        if(null != highCard) {
+            reason.append(" And With High Card: ").append(highCard.getNumber().getName());
         }
 
-        public void setPairCard(Card pairCard) {
-            this.pairCard = pairCard;
-        }
-
-        public List<Card> getOtherCards() {
-            return otherCards;
-        }
-
-        public void setOtherCards(List<Card> otherCards) {
-            this.otherCards = otherCards;
-        }
-
-        public boolean isHasPair() {
-            return hasPair;
-        }
-
-        public void setHasPair(boolean hasPair) {
-            this.hasPair = hasPair;
-        }
+        modelObject.put(WINNER, player);
+        modelObject.put(REASON, reason.toString());
     }
 }

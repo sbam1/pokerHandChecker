@@ -28,7 +28,7 @@ public class ThreeOfAKindTest {
     @Test
     public void shouldWinPlayerWithThreeOfAKind() {
         Map<String, Object> input = new HashMap<>();
-        input.put("POKER_HAND", createPokerHandWithSingleThreeOfAKind());
+        input.put("POKER_TABLE", createPokerHandWithSingleThreeOfAKind());
         subject.executeRule(input);
 
         assertEquals("playerOne", ((PokerPlayer) input.get("WINNER")).getPlayerName());
@@ -37,7 +37,7 @@ public class ThreeOfAKindTest {
     @Test
     public void shouldWinPlayerWithHigherThreeOfAKind() {
         Map<String, Object> input = new HashMap<>();
-        input.put("POKER_HAND", createPokerHandWithThreeOfAKindWithBothPlayers());
+        input.put("POKER_TABLE", createPokerHandWithThreeOfAKindWithBothPlayers());
         subject.executeRule(input);
 
         assertEquals("playerOne", ((PokerPlayer) input.get("WINNER")).getPlayerName());
@@ -46,7 +46,7 @@ public class ThreeOfAKindTest {
     @Test
     public void ruleShouldNotDecideTheWinnerIfThreeOfAKindNotPresent(){
         Map<String, Object> input = new HashMap<>();
-        input.put("POKER_HAND", createPokerHandWithoutThreeOfAKind());
+        input.put("POKER_TABLE", createPokerHandWithoutThreeOfAKind());
         subject.executeRule(input);
         Assert.assertNull(input.get("WINNER"));
         Assert.assertFalse((Boolean) input.get("RESULT"));

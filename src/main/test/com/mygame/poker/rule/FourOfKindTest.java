@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.mygame.poker.util.Constants.POKER_TABLE;
 import static org.junit.Assert.assertEquals;
 
 public class FourOfKindTest {
@@ -29,7 +30,7 @@ public class FourOfKindTest {
     @Test
     public void shouldWinPlayerWithFourOfAKind() {
         Map<String, Object> input = new HashMap<>();
-        input.put("POKER_HAND", createPokerHandWithSingleFourOfAKind());
+        input.put(POKER_TABLE, createPokerHandWithSingleFourOfAKind());
         subject.executeRule(input);
 
         assertEquals("playerOne", ((PokerPlayer) input.get("WINNER")).getPlayerName());
@@ -38,7 +39,7 @@ public class FourOfKindTest {
     @Test
     public void shouldWinPlayerWithHigherFourOfAKind() {
         Map<String, Object> input = new HashMap<>();
-        input.put("POKER_HAND", createPokerHandWithFourOfAKindWithBothPlayers());
+        input.put(POKER_TABLE, createPokerHandWithFourOfAKindWithBothPlayers());
         subject.executeRule(input);
 
         assertEquals("playerOne", ((PokerPlayer) input.get("WINNER")).getPlayerName());
@@ -47,7 +48,7 @@ public class FourOfKindTest {
     @Test
     public void ruleShouldNotDecideTheWinnerIfFourOfAKindNotPresent(){
         Map<String, Object> input = new HashMap<>();
-        input.put("POKER_HAND", createPokerHandWithoutFourOfAKind());
+        input.put(POKER_TABLE, createPokerHandWithoutFourOfAKind());
         subject.executeRule(input);
         Assert.assertNull(input.get("WINNER"));
         Assert.assertFalse((Boolean) input.get("RESULT"));

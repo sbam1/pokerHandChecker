@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.mygame.poker.util.Constants.POKER_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -29,7 +30,7 @@ public  class PairTest {
     @Test
     public void shouldWinPlayerWithPair(){
         Map<String, Object> input = new HashMap<>();
-        input.put("POKER_HAND", createPokerHandWithSinglePair());
+        input.put("POKER_TABLE", createPokerHandWithSinglePair());
         subject.executeRule(input);
         Assert.assertEquals("playerTwo", ((PokerPlayer) input.get("WINNER")).getPlayerName());
     }
@@ -37,7 +38,7 @@ public  class PairTest {
     @Test
     public void shouldWinPlayerWithHigherPair(){
         Map<String, Object> input = new HashMap<>();
-        input.put("POKER_HAND", createPokerHandWithPairWithBothButOneHigherPairThanOther());
+        input.put("POKER_TABLE", createPokerHandWithPairWithBothButOneHigherPairThanOther());
         subject.executeRule(input);
         assertEquals("playerOne", ((PokerPlayer) input.get("WINNER")).getPlayerName());
     }
@@ -45,15 +46,15 @@ public  class PairTest {
     @Test
     public void shouldWinPlayerWithSamePairWithOtherHigherCard(){
         Map<String, Object> input = new HashMap<>();
-        input.put("POKER_HAND", createPokerHandWithPairWithBoth());
+        input.put("POKER_TABLE", createPokerHandWithPairWithBoth());
         subject.executeRule(input);
-        assertEquals("playerTwo", ((PokerPlayer) input.get("WINNER")).getPlayerName());
+        assertEquals("playerOne", ((PokerPlayer) input.get("WINNER")).getPlayerName());
     }
 
     @Test
     public void shouldTieWhenBothHasSamePairAndSameWeightedOtherCards(){
         Map<String, Object> input = new HashMap<>();
-        input.put("POKER_HAND", createPokerHandWithSamePairTie());
+        input.put("POKER_TABLE", createPokerHandWithSamePairTie());
         subject.executeRule(input);
         assertTrue((Boolean) input.get("TIE"));
         assertNull((input.get("WINNER")));

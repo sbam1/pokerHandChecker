@@ -1,8 +1,12 @@
 package com.mygame.poker;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PokerTable {
     private PokerPlayer player1;
     private PokerPlayer player2;
+    private List<PokerPlayer> pokerPlayers = new ArrayList<>();
 
     public PokerTable() {
     }
@@ -26,5 +30,13 @@ public class PokerTable {
 
     public void setPlayer2(PokerPlayer player2) {
         this.player2 = player2;
+    }
+
+    public List<PokerPlayer> getPokerPlayers() {
+        return pokerPlayers;
+    }
+
+    public void setPokerPlayers(List<PokerPlayer> pokerPlayers) {
+        this.pokerPlayers = pokerPlayers;
     }
 }

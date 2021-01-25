@@ -51,8 +51,6 @@ public class Card implements Comparable<Card>{
 
     @Override
     public String toString() {
-        return "{" +
-                cardCategory.getName() + ", " + number.getName() +
-                '}';
+        return "{" + cardCategory.getName() + ", " + number.getName() + '}';
     }
 }

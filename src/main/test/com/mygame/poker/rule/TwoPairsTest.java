@@ -29,7 +29,7 @@ public class TwoPairsTest {
     @Test
     public void shouldWinPlayerWithTwoPair(){
         Map<String, Object> input = new HashMap<>();
-        input.put("POKER_HAND", createPokerHandWithTwoPair());
+        input.put("POKER_TABLE", createPokerHandWithTwoPair());
         subject.executeRule(input);
         Assert.assertEquals("playerTwo", ((PokerPlayer) input.get("WINNER")).getPlayerName());
     }
@@ -37,7 +37,7 @@ public class TwoPairsTest {
     @Test
     public void shouldWinPlayerWithHigherPairs(){
         Map<String, Object> input = new HashMap<>();
-        input.put("POKER_HAND", createPokerHandWithPairWithBothButOneHigherPairThanOther());
+        input.put("POKER_TABLE", createPokerHandWithPairWithBothButOneHigherPairThanOther());
         subject.executeRule(input);
         assertEquals("playerOne", ((PokerPlayer) input.get("WINNER")).getPlayerName());
     }
@@ -45,7 +45,7 @@ public class TwoPairsTest {
     @Test
     public void shouldWinPlayerWithSamePairWithOtherHigherCard(){
         Map<String, Object> input = new HashMap<>();
-        input.put("POKER_HAND", createPokerHandWithSameTwoPairWithBoth());
+        input.put("POKER_TABLE", createPokerHandWithSameTwoPairWithBoth());
         subject.executeRule(input);
         assertEquals("playerOne", ((PokerPlayer) input.get("WINNER")).getPlayerName());
     }
@@ -53,7 +53,7 @@ public class TwoPairsTest {
     @Test
     public void shouldTieWhenBothHasSamePairAndSameWeightedOtherCards(){
         Map<String, Object> input = new HashMap<>();
-        input.put("POKER_HAND", createPokerHandWithSameTwoPairTie());
+        input.put("POKER_TABLE", createPokerHandWithSameTwoPairTie());
         subject.executeRule(input);
         assertTrue((Boolean) input.get("TIE"));
         assertNull((input.get("WINNER")));

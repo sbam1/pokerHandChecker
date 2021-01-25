@@ -2,8 +2,8 @@ package com.mygame.poker.rule;
 
 import com.mygame.poker.Card;
 import com.mygame.poker.CardNumber;
-import com.mygame.poker.PokerTable;
 import com.mygame.poker.PokerPlayer;
+import com.mygame.poker.PokerTable;
 
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -11,6 +11,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static com.mygame.poker.util.Constants.POKER_TABLE;
+import static com.mygame.poker.util.Constants.REASON;
+import static com.mygame.poker.util.Constants.RESULT;
+import static com.mygame.poker.util.Constants.TIE;
+import static com.mygame.poker.util.Constants.WINNER;
+import static com.mygame.poker.util.RankingRuleUtil.compareTwoCards;
 import static java.util.stream.Collectors.toList;
 
 public class TwoPairs implements PokerHandRankingRule {
@@ -25,7 +31,7 @@ public class TwoPairs implements PokerHandRankingRule {
     @Override
     public Map<String, Object> executeRule(Map<String, Object> modelObject) {
 
-        PokerTable pokerTable = (PokerTable) modelObject.get("POKER_HAND");
+        PokerTable pokerTable = (PokerTable) modelObject.get(POKER_TABLE);
         PokerPlayer player1 = pokerTable.getPlayer1();
         PokerPlayer player2 = pokerTable.getPlayer2();
         Collections.sort(player1.getCards());
@@ -34,73 +40,64 @@ public class TwoPairs implements PokerHandRankingRule {
         TwoPairResult playerOneResult = getTwoPairResult(player1);
         TwoPairResult playerTwoResult = getTwoPairResult(player2);
 
+        modelObject.put(RESULT, true);
+
         if(playerOneResult.twoPairs && playerTwoResult.twoPairs){
             bothPlayerGotTwoPairs(modelObject, playerOneResult, playerTwoResult);
 
         }
         else if (playerOneResult.twoPairs){
-            modelObject.put("RESULT", true);
-            modelObject.put("WINNER", player1);
-            modelObject.put("REASON", "Two Pair of:  " + playerOneResult.higherPairCard.getNumber().getName() +
-                    " And " + playerOneResult.lowerPairCard.getNumber().getName());
+            setStatus(modelObject, playerOneResult, player1);
 
         }else if(playerTwoResult.twoPairs){
-            modelObject.put("RESULT", true);
-            modelObject.put("WINNER", player2);
-            modelObject.put("REASON", "Two Pair of:  " + playerTwoResult.higherPairCard.getNumber().getName() +
-                    " And " + playerTwoResult.lowerPairCard.getNumber().getName());
+            setStatus(modelObject, playerTwoResult, player2);
 
         }
         else {
             //rule not applicable
-            modelObject.put("RESULT", false);
+            modelObject.put(RESULT, false);
         }
 
         return modelObject;
     }
 
     private void bothPlayerGotTwoPairs(Map<String, Object> modelObject, TwoPairResult playerOneResult, TwoPairResult playerTwoResult) {
-        modelObject.put("RESULT", true);
-
-        PokerTable pokerTable = (PokerTable) modelObject.get("POKER_HAND");
+        PokerTable pokerTable = (PokerTable) modelObject.get(POKER_TABLE);
         PokerPlayer player1 = pokerTable.getPlayer1();
         PokerPlayer player2 = pokerTable.getPlayer2();
 
-        if(playerOneResult.higherPairCard.getNumber().getWeight() > playerTwoResult.higherPairCard.getNumber().getWeight()) {
-            modelObject.put("WINNER", player1);
-            modelObject.put("REASON", "Two Pair of:  " + playerOneResult.higherPairCard.getNumber().getName() +
-                    " And " + playerOneResult.lowerPairCard.getNumber().getName());
+        int higherCardWeightDiff = compareTwoCards(playerOneResult.higherPairCard, playerTwoResult.higherPairCard);
+        int lowerCardWeightDiff = compareTwoCards(playerOneResult.lowerPairCard, playerTwoResult.lowerPairCard);
 
-        } else  if(playerTwoResult.higherPairCard.getNumber().getWeight() > playerOneResult.higherPairCard.getNumber().getWeight()) {
-            modelObject.put("WINNER", player2);
-            modelObject.put("REASON", "Two Pair of:  " + playerTwoResult.higherPairCard.getNumber().getName() +
-                    " And " + playerTwoResult.lowerPairCard.getNumber().getName());
-        } else  if(playerOneResult.lowerPairCard.getNumber().getWeight() > playerTwoResult.lowerPairCard.getNumber().getWeight()) {
-            modelObject.put("WINNER", player1);
-            modelObject.put("REASON", "Two Pair of:  " + playerOneResult.higherPairCard.getNumber().getName() +
-                    " And " + playerOneResult.lowerPairCard.getNumber().getName());
+        if(higherCardWeightDiff > 0) {
+            setStatus(modelObject, playerOneResult, player1);
+        }
 
-        } else  if(playerTwoResult.lowerPairCard.getNumber().getWeight() > playerOneResult.lowerPairCard.getNumber().getWeight()) {
-            modelObject.put("WINNER", player2);
-            modelObject.put("REASON", "Two Pair of:  " + playerTwoResult.higherPairCard.getNumber().getName() +
-                    " And " + playerTwoResult.lowerPairCard.getNumber().getName());
-        } else {
+        else  if(higherCardWeightDiff < 0) {
+            setStatus(modelObject, playerTwoResult, player2);
+        }
+
+        else  if(lowerCardWeightDiff > 0) {
+            setStatus(modelObject, playerOneResult, player1);
+        }
+
+        else  if(lowerCardWeightDiff < 0) {
+            setStatus(modelObject, playerTwoResult, player2);
+        }
+        else {
+            //both got same pair now need to check last card.
             int weight = playerOneResult.otherCard.getNumber().getWeight() -
                     playerTwoResult.otherCard.getNumber().getWeight();
             if(weight > 0) {
-                modelObject.put("WINNER", player1);
-                modelObject.put("REASON", "Two Pair of:  " + playerOneResult.higherPairCard.getNumber().getName() +
-                        " And " + playerOneResult.lowerPairCard.getNumber().getName());
+                setStatus(modelObject, playerOneResult, player1);
 
             } else if(weight < 0) {
-                modelObject.put("WINNER", player2);
-                modelObject.put("REASON", "Two Pair of:  " + playerTwoResult.higherPairCard.getNumber().getName() +
-                        " And " + playerTwoResult.lowerPairCard.getNumber().getName());
+                setStatus(modelObject, playerTwoResult, player2);
             }
 
-            if(null ==  modelObject.get("WINNER")) {
-                modelObject.put("WINNER", null);
-                modelObject.put("TIE", true);
+            if(null ==  modelObject.get(WINNER)) {
+                modelObject.put(WINNER, null);
+                modelObject.put(TIE, true);
             }
         }
     }
@@ -127,6 +124,12 @@ public class TwoPairs implements PokerHandRankingRule {
             });
         }
         return twoPairResult;
+    }
+
+    private void setStatus(Map<String, Object> modelObject, TwoPairResult result, PokerPlayer player) {
+        modelObject.put(WINNER, player);
+        modelObject.put(REASON, "Two Pair of:  " + result.higherPairCard.getNumber().getName() +
+                " And " + result.lowerPairCard.getNumber().getName());
     }
 
     static class TwoPairResult {

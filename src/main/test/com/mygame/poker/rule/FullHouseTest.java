@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.mygame.poker.util.Constants.POKER_TABLE;
 import static org.junit.Assert.assertEquals;
 
 public class FullHouseTest {
@@ -28,7 +29,7 @@ public class FullHouseTest {
     @Test
     public void shouldWinPlayerWithFullHouse() {
         Map<String, Object> input = new HashMap<>();
-        input.put("POKER_HAND", createPokerHandWithSingleFullHouse());
+        input.put(POKER_TABLE, createPokerHandWithSingleFullHouse());
         subject.executeRule(input);
 
         assertEquals("playerOne", ((PokerPlayer) input.get("WINNER")).getPlayerName());
@@ -37,7 +38,7 @@ public class FullHouseTest {
     @Test
     public void shouldWinPlayerWithHigherFullHouse() {
         Map<String, Object> input = new HashMap<>();
-        input.put("POKER_HAND", createPokerHandWithFullHouseWithBothPlayers());
+        input.put(POKER_TABLE, createPokerHandWithFullHouseWithBothPlayers());
         subject.executeRule(input);
 
         assertEquals("playerOne", ((PokerPlayer) input.get("WINNER")).getPlayerName());
@@ -46,7 +47,7 @@ public class FullHouseTest {
     @Test
     public void ruleShouldNotDecideTheWinnerIfFullHouseNotPresent(){
         Map<String, Object> input = new HashMap<>();
-        input.put("POKER_HAND", createPokerHandWithoutFullHouse());
+        input.put(POKER_TABLE, createPokerHandWithoutFullHouse());
         subject.executeRule(input);
         Assert.assertNull(input.get("WINNER"));
         Assert.assertFalse((Boolean) input.get("RESULT"));

@@ -4,8 +4,8 @@ package com.mygame.poker.rule;
 import com.mygame.poker.Card;
 import com.mygame.poker.CardCategory;
 import com.mygame.poker.CardNumber;
-import com.mygame.poker.PokerTable;
 import com.mygame.poker.PokerPlayer;
+import com.mygame.poker.PokerTable;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,7 +31,7 @@ public class FlushTest {
     @Test
     public void shouldWinPlayerWithFlush(){
         Map<String, Object> input = new HashMap<>();
-        input.put("POKER_HAND", createPokerHandWithSingleFlush());
+        input.put("POKER_TABLE", createPokerHandWithSingleFlush());
         subject.executeRule(input);
         Assert.assertEquals("playerOne", ((PokerPlayer) input.get("WINNER")).getPlayerName());
         Assert.assertTrue((Boolean) input.get("RESULT"));
@@ -40,7 +40,7 @@ public class FlushTest {
     @Test
     public void shouldWinPlayerWithHigherFlush(){
         Map<String, Object> input = new HashMap<>();
-        input.put("POKER_HAND", createPokerHandWithFlushWithBothPlayers());
+        input.put("POKER_TABLE", createPokerHandWithFlushWithBothPlayers());
         subject.executeRule(input);
         assertEquals("playerTwo", ((PokerPlayer) input.get("WINNER")).getPlayerName());
         Assert.assertTrue((Boolean) input.get("RESULT"));
@@ -49,7 +49,7 @@ public class FlushTest {
     @Test
     public void ruleShouldTieIfBothHasSameWeightedFlush(){
         Map<String, Object> input = new HashMap<>();
-        input.put("POKER_HAND", createPokerHandWithFlushWithBothPlayersWithSameWeight());
+        input.put("POKER_TABLE", createPokerHandWithFlushWithBothPlayersWithSameWeight());
         subject.executeRule(input);
         assertTrue((Boolean) input.get("TIE"));
         assertNull((input.get("WINNER")));
@@ -60,7 +60,7 @@ public class FlushTest {
     @Test
     public void ruleShouldNotDecideTheWinnerIfFlushNotAvailable(){
         Map<String, Object> input = new HashMap<>();
-        input.put("POKER_HAND", createPokerHandWithoutFlush());
+        input.put("POKER_TABLE", createPokerHandWithoutFlush());
         subject.executeRule(input);
         Assert.assertNull(input.get("WINNER"));
         Assert.assertFalse((Boolean) input.get("RESULT"));

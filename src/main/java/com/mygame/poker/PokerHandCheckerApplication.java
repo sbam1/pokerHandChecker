@@ -6,6 +6,9 @@ public class PokerHandCheckerApplication {
 
     public static void main(String[] args) {
 
+        //please run PokerResultServiceTest and individual rule test classes to see all test scenario's
+
+        //sample:
         Card card1 = new Card(CardCategory.CLUBS, CardNumber.ACE);
         Card card2 = new Card(CardCategory.CLUBS, CardNumber.TWO);
         Card card3 = new Card(CardCategory.CLUBS, CardNumber.NINE);
@@ -22,8 +25,8 @@ public class PokerHandCheckerApplication {
         PokerPlayer playerTwo = new PokerPlayer("playerTwo", Arrays.asList(card11, card12, card13, card14, card15));
 
         PokerTable pokerTable1 = new PokerTable(playerOne, playerTwo);
-        PokerHandResultService pokerHandResultService = new PokerHandResultService();
-        pokerHandResultService.checkPokerTablesResult(Arrays.asList(pokerTable1));
+        PokerResultService pokerResultService = new PokerResultService();
+        pokerResultService.checkPokerTablesResult(Arrays.asList(pokerTable1));
 
     }
 

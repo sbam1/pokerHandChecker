@@ -29,7 +29,7 @@ public class StraightFlushTest {
     @Test
     public void shouldWinPlayerWithStraightFlush(){
         Map<String, Object> input = new HashMap<>();
-        input.put("POKER_HAND", createPokerHandWithSingleStraightFlush());
+        input.put("POKER_TABLE", createPokerHandWithSingleStraightFlush());
         subject.executeRule(input);
         Assert.assertEquals("playerOne", ((PokerPlayer) input.get("WINNER")).getPlayerName());
     }
@@ -37,7 +37,7 @@ public class StraightFlushTest {
     @Test
     public void shouldWinPlayerWithHigherStraightFlush(){
         Map<String, Object> input = new HashMap<>();
-        input.put("POKER_HAND", createPokerHandWithStraightFlushWithBothPlayers());
+        input.put("POKER_TABLE", createPokerHandWithStraightFlushWithBothPlayers());
         subject.executeRule(input);
         assertEquals("playerTwo", ((PokerPlayer) input.get("WINNER")).getPlayerName());
     }
@@ -45,7 +45,7 @@ public class StraightFlushTest {
     @Test
     public void shouldTieWhenBothHasSamePairAndSameWeightedOtherCards(){
         Map<String, Object> input = new HashMap<>();
-        input.put("POKER_HAND", createPokerHandWithStraightFlushWithBothPlayersWithSameWeight());
+        input.put("POKER_TABLE", createPokerHandWithStraightFlushWithBothPlayersWithSameWeight());
         subject.executeRule(input);
         assertTrue((Boolean) input.get("TIE"));
         assertNull((input.get("WINNER")));
@@ -55,7 +55,7 @@ public class StraightFlushTest {
     @Test
     public void ruleShouldNotDecideTheWinnerIfNoStraightFlush(){
         Map<String, Object> input = new HashMap<>();
-        input.put("POKER_HAND", createPokerHandWithoutStraightFlush());
+        input.put("POKER_TABLE", createPokerHandWithoutStraightFlush());
         subject.executeRule(input);
         Assert.assertNull(input.get("WINNER"));
         Assert.assertFalse((Boolean) input.get("RESULT"));

@@ -6,13 +6,13 @@ import org.junit.Test;
 
 import java.util.Arrays;
 
-public class PokerTableResultServiceTest {
+public class PokerResultServiceTest {
 
-    private PokerHandResultService service;
+    private PokerResultService service;
 
     @Before
     public void setup() {
-        service = new PokerHandResultService();
+        service = new PokerResultService();
     }
 
     @Test
